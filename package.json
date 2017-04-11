@@ -1,31 +1,27 @@
 {
-  "name": "drachtio-sample-twostage-dialing",
+  "name": "drachtio-sip-scenario-tester",
   "version": "1.0.0",
-  "description": "Sample two-stage dialing application illustrating use of drachtio frameworks",
+  "description": "drachtio sip scenario tester similar to sipP or sipPy_Cup",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/davehorton/drachtio-sample-twostage-dialing.git"
-  },
   "dependencies": {
     "async": "^1.4.2",
-    "debug": "^2.2.0",
-    "drachtio": "git+ssh://git@github.com:davehorton/drachtio.git",
-    "drachtio-fsmrf": "git+ssh://git@github.com:davehorton/drachtio-fsmrf.git",
-    "drachtio-srf": "git+ssh://git@github.com:davehorton/drachtio-srf.git",
+    "debug": "^2.6.3",
+    "drachtio": "^1.0.9",
+    "drachtio-fsmrf": "^0.101.0",
+    "drachtio-srf": "^3.0.2",
     "minimist": "^1.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/byoungdale/drachtio-sip-scenario-tester.git"
   },
   "keywords": [
     "SIP",
     "drachtio"
   ],
-  "author": "Dave Horton",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/davehorton/drachtio-sample-twostage-dialing/issues"
-  },
-  "homepage": "https://github.com/davehorton/drachtio-sample-twostage-dialing#readme"
+  "author": "Brandon Youngdale",
+  "license": "unlicense"
 }

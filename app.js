@@ -1,37 +1,72 @@
 'use strict' ;
 
-var drachtio = require('drachtio') ;
-var app = drachtio() ;
-var Mrf = require('drachtio-fsmrf') ;
-var Srf = require('drachtio-srf') ;
-var mrf = app.mrf = new Mrf(app) ;
-app.srf = new Srf(app) ;
-var MediaServices = require('./lib/media-services') ;
-var argv = require('minimist')(process.argv.slice(2));
-var debug = app.debug = require('debug')('drachtio-sample') ;
+const drachtio = require('drachtio') ;
+const app = drachtio();
+const Mrf = require('drachtio-fsmrf');
+const mrf = new Mrf(app) ;
+const Srf = require('drachtio-srf') ;
+const srf = new Srf(app) ;
+const MediaServices = require('./lib/media-services') ;
+var debug = require('debug');
+const registrationHandler = require('./lib/registrationHandler');
+const callHandler = require('./lib/callHandler');
 
-if( !argv.gateway ) {
-    console.error('Usage: node index.js --gateway \'outbound-gateway-ip-address\'') ;
-    process.exit(-1) ;
+const opts = {
+  domain: 'sip.qa.phone.com',
+  user: 	124331,
+  password: 'NyhEC6OvZ',
+  hostport: 5060,
+  callednumber: 17606590215,
 }
-app.gateway = argv.gateway ;
 
-var drachtioConnectOpts = { host: 'localhost', port: 8022, secret: 'cymru'} ;
-var mediaserverConnectOpts = { address: '127.0.0.1', port: 8021, secret: 'ClueCon', listenPort: 8085 } ;
+const drachtioConnectOpts = {
+  host: 'localhost',
+  port: 8022,
+  secret: 'cymru'
+} ;
 
-app.connect(drachtioConnectOpts) ;
-mrf.connect(mediaserverConnectOpts) ;
+const mediaserverConnectOpts = {
+  address: '127.0.0.1',
+  port: 8021,
+  secret: 'ClueCon',
+  listenAddress: '127.0.0.1',
+  listenPort: 8085
+} ;
 
-app.on('connect', function(err, hostport) {
+srf.connect(drachtioConnectOpts) ;
+
+mrf.connect(mediaserverConnectOpts, (err, mediaServer) => {
+  if (err) { debug(err) ; }
+  mediaServer.on('connect', (err, ms) => {
+    if (err) { debug(err); }
+    console.log('connected to media server listening on %s:%s', ms.sipAddress, ms.sipPort) ;
+    MediaServices.addMediaServer( ms ) ;
+    });
+  }) ;
+
+srf.on('connect', (err, hostport) => {
   console.log('connected to drachtio listening for SIP on %s', hostport) ;
 }) ;
 
-mrf.on('connect', function(ms) {
-  console.log('connected to media server listening on %s:%s', ms.sipAddress, ms.sipPort) ;
-  MediaServices.addMediaServer( ms ) ;
-}) ;
 
-//load routes
-require('./lib/invite')(app) ;
+// registerUser function's callback receives expires variable
+// from the 200 OK back from the registrar
+/*
+registrationHandler.register(opts, srf, (opts, srf, expires) => {
+  console.log(`re-registering`);
+  srf.request(`sip:${opts.user}@${opts.domain}`, {
+      method: 'REGISTER',
+      headers: {
+          'Expires': expires,
+          'From': `sip:${opts.user}@${opts.domain}`,
+          'Contact': `sip:${opts.user}@${opts.domain}:${opts.hostport}`
+      },
+      auth: {
+        username: opts.user,
+        password: opts.password
+      }
+  });
+});
 
-
+callHandler.receiveCall(srf);
+*/
