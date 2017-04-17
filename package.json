@@ -9,9 +9,9 @@
   "dependencies": {
     "async": "^1.4.2",
     "debug": "^2.6.3",
-    "drachtio": "^1.0.9",
-    "drachtio-fsmrf": "^0.101.0",
-    "drachtio-srf": "^3.0.2",
+    "drachtio": "^1.0.16",
+    "drachtio-fsmrf": "^0.102.3",
+    "drachtio-srf": "^3.0.10",
     "minimist": "^1.2.0"
   },
   "repository": {
