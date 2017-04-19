@@ -9,7 +9,7 @@ const srf = new Srf(app) ;
 const MediaServices = require('./lib/media-services') ;
 var debug = require('debug');
 const registrationHandler = require('./lib/registrationHandler');
-const callHandler = require('./lib/callHandler');
+const call = require('./lib/call');
 
 
 const opts = {
@@ -80,4 +80,4 @@ registrationHandler.register(opts, srf, (opts, srf, expires) => {
   });
 });
 
-callHandler.receiveCall(srf);
+call.receive(opts, srf);
