@@ -17,7 +17,6 @@ const opts = {
   user: 	120347,
   password: 'Ty5rq4vP3@m7c2',
   hostport: 5060,
-  callednumber: 17606590215,
 }
 
 /*
