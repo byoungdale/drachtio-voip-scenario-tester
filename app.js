@@ -10,13 +10,19 @@ const MediaServices = require('./lib/media-services') ;
 var debug = require('debug');
 const registrationHandler = require('./lib/registrationHandler');
 const call = require('./lib/call');
+const os = require('os');
+// make this into a user constructor function
+// then it will be easier to make multiple users
+// for use with multiple users/scenarios
 
+const ipAddress = os.networkInterfaces().eth1[0].address;
 
 const opts = {
   domain: 'sip.phone.com',
   user: 	120347,
   password: 'Ty5rq4vP3@m7c2',
   hostport: 5060,
+  localAddress: ipAddress
 }
 
 /*
@@ -79,4 +85,8 @@ registrationHandler.register(opts, srf, (opts, srf, expires) => {
   });
 });
 
-call.receive(opts, srf);
+call.receive(opts, srf, (ep, dialog) => {
+  call.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav']);
+  setTimeout(() => { call.sendDTMF(ep, dialog, '*2'); }, 5000);
+  setTimeout(() => { call.sendDTMF(ep, dialog, '7609946034'); }, 6000);
+});
