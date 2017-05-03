@@ -10,19 +10,22 @@ const MediaServices = require('./lib/media-services') ;
 var debug = require('debug');
 const registrationHandler = require('./lib/registrationHandler');
 const call = require('./lib/call');
+const sdp = require('./lib/sdp');
 const os = require('os');
 // make this into a user constructor function
 // then it will be easier to make multiple users
 // for use with multiple users/scenarios
 
 const ipAddress = os.networkInterfaces().eth1[0].address;
+const localSdp = sdp.produceSdp(ipAddress);
 
 const opts = {
   domain: 'sip.phone.com',
   user: 	120347,
   password: 'Ty5rq4vP3@m7c2',
   hostport: 5060,
-  localAddress: ipAddress
+  localAddress: ipAddress,
+  localSdp: localSdp
 }
 
 /*
@@ -65,7 +68,6 @@ mrf.on('connect', (ms) => {
   MediaServices.addMediaServer( ms ) ;
 });
 
-
 // registerUser function's callback receives expires variable
 // from the 200 OK back from the registrar
 
@@ -85,8 +87,17 @@ registrationHandler.register(opts, srf, (opts, srf, expires) => {
   });
 });
 
+setTimeout(() => {
+  call.send(srf, '501', opts, (err, ep, dialog) => {
+    console.log(`ep: ${ep} on dialog: ${dialog}`);
+    }
+  );
+}, 2000);
+
+/*
 call.receive(opts, srf, (ep, dialog) => {
   call.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav']);
   setTimeout(() => { call.sendDTMF(ep, dialog, '*2'); }, 5000);
   setTimeout(() => { call.sendDTMF(ep, dialog, '7609946034'); }, 6000);
 });
+*/
