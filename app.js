@@ -10,6 +10,7 @@ const MediaServices = require('./lib/media-services') ;
 var debug = require('debug');
 const registrationHandler = require('./lib/registrationHandler');
 const call = require('./lib/call');
+const incall = require('./lib/incall');
 const sdp = require('./lib/sdp');
 const os = require('os');
 // make this into a user constructor function
@@ -87,17 +88,20 @@ registrationHandler.register(opts, srf, (opts, srf, expires) => {
   });
 });
 
+/*
 setTimeout(() => {
   call.send(srf, '501', opts, (err, ep, dialog) => {
-    console.log(`ep: ${ep} on dialog: ${dialog}`);
-    }
-  );
+    if (err) { throw err; }
+    console.log(dialog);
+    incall.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav']);
+  });
 }, 2000);
-
-/*
-call.receive(opts, srf, (ep, dialog) => {
-  call.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav']);
-  setTimeout(() => { call.sendDTMF(ep, dialog, '*2'); }, 5000);
-  setTimeout(() => { call.sendDTMF(ep, dialog, '7609946034'); }, 6000);
-});
 */
+
+call.receive(opts, srf, (req, res, opts) => {
+  call.connect(req, res, opts, (ep, dialog) => {
+    incall.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav']);
+    setTimeout(() => { incall.sendDTMF(ep, dialog, '*2'); }, 5000);
+    setTimeout(() => { incall.sendDTMF(ep, dialog, '7609946034'); }, 6000);
+  });
+});
