@@ -9,7 +9,8 @@ const srf = new Srf(app) ;
 const MediaServices = require('./lib/media-services') ;
 var debug = require('debug');
 const registrationHandler = require('./lib/registrationHandler');
-const call = require('./lib/call');
+const async = require('async');
+const Call = require('./lib/call');
 const incall = require('./lib/incall');
 const config = require('./config');
 
@@ -49,6 +50,29 @@ registrationHandler.register(config.user, srf, (opts, srf, expires) => {
   });
 });
 
+const call = new Call(config, srf);
+
+// An example of creating scenarios out of the call and incall functions
+// call functions would be within a async.series because they don't need
+// to pass their results to the net function.
+// But, the incall functions would need to pass the results to the next
+// function, so we can use a async.waterfall to pass dialog and endpoint
+// parameters along the call.
+/*
+async.series({
+  call.getEndpoint(config.user, (ep) => {
+    call.send(srf, ep, '1000', config.user, (err, ep, dialog) => {
+      if (err) { throw err; }
+      async.waterfall([
+        incall.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav']);
+        setTimeout(() => { incall.sendDTMF(ep, dialog, '*2'); }, 5000);
+        setTimeout(() => { incall.sendDTMF(ep, dialog, '7609946034'); }, 6000);
+      ]); // async.waterfall
+    }); // call.send
+  }); // call.getEndpoint
+}); // async.series
+*/
+
 
 setTimeout(() => {
   call.getEndpoint(config.user, (ep) => {
@@ -56,7 +80,7 @@ setTimeout(() => {
       if (err) { throw err; }
       incall.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav']);
     }); // call.send
-  }); // call.getEndpoit
+  }); // call.getEndpoint
 }, 2000);
 
 /*
