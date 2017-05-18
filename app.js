@@ -52,6 +52,16 @@ registrationHandler.register(config.user, srf, (opts, srf, expires) => {
 
 const call = new Call(config, srf);
 
+// ideal final setup
+// scenario.run(scenarioOpts)
+// OR
+// for multiple scenarios
+/*
+scenarioOpts.map((test) => {
+  scenario.run(test);
+});
+*/
+
 // An example of creating scenarios out of the call and incall functions
 // call functions would be within a async.series because they don't need
 // to pass their results to the net function.
