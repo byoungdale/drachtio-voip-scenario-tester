@@ -33,14 +33,6 @@ mrf.on('connect', (ms) => {
   MediaServices.addMediaServer( ms ) ;
 });
 
-// registerUser function's callback receives expires variable
-// from the 200 OK back from the registrar
-
-registrationHandler.register(config.user, srf, '3600')
-  .then((result) => {
-    registrationHandler.register(result.opts, result.srf, result.expires);
-  });
-
 // ideal final setup
 // scenario.run(scenarioOpts)
 // OR
@@ -51,24 +43,36 @@ scenarioOpts.map((test) => {
 });
 */
 
-// call.receive with promises
-call.receive(config.user, srf)
-  .then((result) => {
-    call.connect(result.req, result.res, result.opts)
-    .then((result) => {
-      incall.playRecording(result.ep, result.dialog, ['ivr/8000/ivr-oh_whatever.wav']);
-    });
-  });
+// registerUser function's callback receives expires variable
+// from the 200 OK back from the registrar
 
-/*
-// call.send with promises
-setTimeout(() => {
-  call.getEndpoint(config.user)
-    .then((result) => {
-      call.send(srf, result.ep, '1000', config.user)
-        .then((result) => {
-          incall.playRecording(result.ep, result.dialog, ['ivr/8000/ivr-oh_whatever.wav']);
-        });
-    });
-}, 2000); // setTimeout
-*/
+registrationHandler.register(config.user, srf, (opts, srf, expires) => {
+  console.log(`re-registering`);
+  srf.request(`sip:${opts.username}@${opts.domain}`, {
+      method: 'REGISTER',
+      headers: {
+          'Expires': expires,
+          'From': `sip:${opts.username}@${opts.domain}`,
+          'Contact': `sip:${opts.username}@${opts.domain}:${opts.hostport}`
+      },
+      auth: {
+        username: opts.username,
+        password: opts.password
+      }
+  });
+});
+
+call.receive(config.user, srf, (req, res, opts) => {
+  call.connect(req, res, opts, (ep, dialog) => {
+    async.series([
+      function(callback) {
+        incall.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav'], callback);
+      },
+      function(callback) {
+        incall.playRecording(ep, dialog, ['ivr/8000/ivr-yes_we_have_no_bananas.wav'], callback);
+      }
+    ], (err, results) => {
+      incall.end(ep, dialog);
+    }); // async.series
+  }); // call.connect
+}); // call.receive
