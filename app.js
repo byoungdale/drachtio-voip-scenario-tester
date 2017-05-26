@@ -62,8 +62,23 @@ registrationHandler.register(config.user, srf, (opts, srf, expires) => {
   });
 });
 
-call.receive(config.user, srf, (req, res, opts) => {
-  call.connect(req, res, opts, (ep, dialog) => {
+/*
+call.receive(config.user, srf, (ep, dialog) => {
+  async.series([
+    function(callback) {
+      incall.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav'], callback);
+    },
+    function(callback) {
+      incall.playRecording(ep, dialog, ['ivr/8000/ivr-yes_we_have_no_bananas.wav'], callback);
+    }
+  ], (err, results) => {
+    incall.end(ep, dialog);
+  }); // async.series
+}); // call.receive
+*/
+
+setTimeout(() => {
+  call.send(srf, '1000', config.user, (err, ep, dialog) => {
     async.series([
       function(callback) {
         incall.playRecording(ep, dialog, ['ivr/8000/ivr-oh_whatever.wav'], callback);
@@ -74,5 +89,5 @@ call.receive(config.user, srf, (req, res, opts) => {
     ], (err, results) => {
       incall.end(ep, dialog);
     }); // async.series
-  }); // call.connect
-}); // call.receive
+  }); // call.send
+}, 2000); //setTimeout
