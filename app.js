@@ -1,3 +1,5 @@
+'use strict';
+
 const drachtio = require('drachtio');
 const Mrf = require('drachtio-fsmrf');
 const Srf = require('drachtio-srf');
