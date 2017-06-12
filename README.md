@@ -27,11 +27,17 @@ A SIP scenario tester built on the drachtio framework using [drachtio-srf](https
 
 ##### registrationHandler.register
   - register user
-  
+
 ##### registrationHandler.unregister
   - unregister user (set with timeout on 200 response to register)
 
 The magic happens in scenario.js where you place the in-call function in a async.series within the callback to call.receive or call.send. Take a look at the example scenario in /lib/scenario.js.
+
+run the scenario in app.js with the run method, passing in the config and srf (Signaling Resource Framework) parameters:
+
+```javascript
+scenario.run(config, srf);
+```
 
 Note: In order to run this application, you must have the following:
 * [drachtio-server](https://github.com/davehorton/drachtio-server) running locally and listening on port 8022
