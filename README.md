@@ -1,26 +1,25 @@
 # drachtio-sip-scenario-tester
-A SIP tester, like SIPp and Star Trinity, built on the drachtio framework using [drachtio-srf](https://github.com/davehorton/drachtio-srf) and [drachtio-fsmrf](https://github.com/davehorton/drachtio-fsmrf).  
+A SIP scenario tester built on the drachtio framework using [drachtio-srf](https://github.com/davehorton/drachtio-srf) and [drachtio-fsmrf](https://github.com/davehorton/drachtio-fsmrf).  
 
-## call functions
-### call.receive
+### call functions
+##### call.receive
   - receive a call
-### call.send
+##### call.send
   - send a call
-
-## in-call functions
-### incall.sendDTMF
+### in-call functions
+##### incall.sendDTMF
   - send DTMF (callbacks currently not working for this function)
-###incall.playRecording
+##### incall.playRecording
   - play recording(s) from endpoint
-### incall.modifyCall
+##### incall.modifyCall
   - hold or unhold (callbacks currently not working for this function)
-### incall.onReinvite
+##### incall.onReinvite
   - update SDP for re-invite
+### endpoint registration
 
-## endpoint registration
-### registrationHandler.register
+##### registrationHandler.register
   - register user
-### registrationHandler.unregister
+##### registrationHandler.unregister
   - unregister user (set with timeout on 200 response to register)
 
 The magic happens in scenario.js where you place the in-call function in a async.series within the callback to call.receive or call.send. Take a look at the example scenario in /lib/scenario.js.
