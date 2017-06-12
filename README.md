@@ -2,23 +2,32 @@
 A SIP scenario tester built on the drachtio framework using [drachtio-srf](https://github.com/davehorton/drachtio-srf) and [drachtio-fsmrf](https://github.com/davehorton/drachtio-fsmrf).  
 
 ### call functions
+
 ##### call.receive
   - receive a call
+
 ##### call.send
   - send a call
+
 ### in-call functions
+
 ##### incall.sendDTMF
   - send DTMF (callbacks currently not working for this function)
+
 ##### incall.playRecording
   - play recording(s) from endpoint
+
 ##### incall.modifyCall
   - hold or unhold (callbacks currently not working for this function)
+
 ##### incall.onReinvite
   - update SDP for re-invite
+
 ### endpoint registration
 
 ##### registrationHandler.register
   - register user
+  
 ##### registrationHandler.unregister
   - unregister user (set with timeout on 200 response to register)
 
