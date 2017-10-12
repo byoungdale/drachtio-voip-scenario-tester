@@ -9,6 +9,9 @@ A SIP scenario tester built on the drachtio framework using [drachtio-srf](https
 ##### call.send
   - send a call
 
+##### call.modifyCall
+  - hold or unhold (callbacks currently not working for this function)
+
 ### in-call functions
 
 ##### incall.sendDTMF
@@ -16,9 +19,6 @@ A SIP scenario tester built on the drachtio framework using [drachtio-srf](https
 
 ##### incall.playRecording
   - play recording(s) from endpoint
-
-##### incall.modifyCall
-  - hold or unhold (callbacks currently not working for this function)
 
 ##### incall.onReinvite
   - update SDP for re-invite
