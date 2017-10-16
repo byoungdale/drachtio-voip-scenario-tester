@@ -10,12 +10,12 @@ A SIP scenario tester built on the drachtio framework using [drachtio-srf](https
   - send a call
 
 ##### call.modifyCall
-  - hold or unhold (callbacks currently not working for this function)
+  - hold or unhold
 
 ### in-call functions
 
 ##### incall.sendDTMF
-  - send DTMF (callbacks currently not working for this function)
+  - send DTMF
 
 ##### incall.playRecording
   - play recording(s) from endpoint
