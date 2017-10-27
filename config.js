@@ -4,8 +4,17 @@ const sdp = require('./lib/produceSdp');
 const ipAddress = os.networkInterfaces().eth1[0].address;
 const localSdp = sdp.produceSdp(ipAddress);
 
-const user = {
-  domain: '10.0.1.182',
+const user_1 = {
+  domain: ipAddress,
+  username: 1001,
+  password: '1234',
+  hostport: 5060,
+  localAddress: ipAddress,
+  sdp: localSdp,
+};
+
+const user_2 = {
+  domain: ipAddress,
   username: 1002,
   password: '1234',
   hostport: 5060,
