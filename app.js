@@ -41,6 +41,4 @@ mrf.on('connect', (err, ms) => {
   MediaServices.addMediaServer(ms);
 });
 
-// make this method to register all users for the scenario
-// registerUsers();
 scenario.run(srf, users, scenarios.one, logger);
