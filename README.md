@@ -18,6 +18,9 @@ The InCall class has the following methods. The Call method resolves to a InCall
 
 ##### playRecording
   - play recording(s) from endpoint
+  
+##### transfer
+  - transfer a call
 
 ##### modifyCall
   - hold or unhold (callbacks currently not working for this function)
