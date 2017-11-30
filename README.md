@@ -4,20 +4,21 @@ A SIP scenario tester built on the drachtio framework using [drachtio-srf](https
 ### call methods
 
 ##### receive
-  - receive a call
+  - receives an incoming call
+  - optional parameter: forward
 
 ##### send
-  - send a call
+  - makes an outbound call
 
 ### in-call methods
 
 The InCall class has the following methods. The Call method resolves to a InCall instance that is used to call the methods.
 
 ##### sendDTMF
-  - send DTMF (callbacks currently not working for this function)
+  - send DTMF
 
 ##### playRecording
-  - play recording(s) from endpoint
+  - play recording(s) from an endpoint
   
 ##### transfer
   - transfer a call
@@ -27,12 +28,15 @@ The InCall class has the following methods. The Call method resolves to a InCall
 
 ##### onReinvite
   - update SDP for re-invite
+  
+##### verifyMedia
+  - verifies that media is flowing in the call
 
 ### endpoint registration
 
-Endpoint registration is handled in the scenario.js file, but you can use the registrationHandler yourself to handle it yourself.
+Endpoint registration is handled in the scenario run function, but you can use the registrationHandler yourself to handle it yourself.
 
-##### .register
+##### register
   - register user
   
 ##### reRegister
@@ -41,29 +45,48 @@ Endpoint registration is handled in the scenario.js file, but you can use the re
 ##### unregister
   - unregister user (set with timeout on 200 response to register)
 
+### scenario functions
+
+##### registerUsers
+  - loops through the users object in the config file and registers them all to the domain
+  
+##### runScenario
+  - loops through the given scenario object and runs the commands
+
+##### run
+  - just runs the two functions above
+
 The magic happens in scenario.js where it loops through the scenarios defined in the config.js file.
 
-##### example scenario from config.js
+##### example scenarios from config.js
 ```javacript
 const scenarios = {
   one: {
-    callflow: 'receive',
     user: users.one,
-    actions: {
-      playRecording: [
-        'misc/8000/we_are_trying_to_reach.wav',
-        'digits/8000/1.wav',
-        'digits/8000/thousand.wav',
-        'digits/8000/2.wav',
-      ],
-      transfer: [users.one.username, '1002', users.one.domain],
+    callflow: {
+      direction: 'receive',
+      parameters: null,
     },
+    actions: [
+      { playRecording: ['music/8000/suite-espanola-op-47-leyenda.wav'] },
+    ],
   },
   two: {
-    callflow: 'send',
     user: users.two,
-    actions: {
-      playRecording: ['ivr/8000/ivr-oh_whatever.wav'],
+    callflow: {
+      direction: 'send',
+      parameters: `${users.three.username}`,
+    },
+    actions: [
+      { playRecording: ['ivr/8000/ivr-oh_whatever.wav'] },
+      { transfer: [users.one.username, '1000', users.one.domain] },
+    ],
+  },
+  three: {
+    user: users.three,
+    callflow: {
+      direction: 'receive',
+      parameters: { forward: `${users.one.username}@${users.one.domain}` },
     },
   },
 };
