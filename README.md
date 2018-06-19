@@ -1,5 +1,7 @@
-# drachtio-sip-scenario-tester
-A SIP scenario tester built on the drachtio framework using [drachtio-srf](https://github.com/davehorton/drachtio-srf) and [drachtio-fsmrf](https://github.com/davehorton/drachtio-fsmrf).  
+# drachtio-voip-scenario-tester
+A VoIP scenario tester built on the drachtio framework using [drachtio-srf](https://github.com/davehorton/drachtio-srf) and [drachtio-fsmrf](https://github.com/davehorton/drachtio-fsmrf).  
+
+The main goal is to be able to create JSON-ish dialplans and have the application handle all the scenarios (inbound and outbound). Ideally, it could be integrated into a CI/CD workflow for easy testing in VoIP infrastructure development.
 
 ### call methods
 
