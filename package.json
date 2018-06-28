@@ -8,11 +8,11 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "async": "^1.5.2",
     "debug": "^2.6.3",
-    "drachtio": "^3.0.2",
-    "drachtio-fsmrf": "^0.102.8",
-    "drachtio-srf": "^3.0.14",
+    "drachtio": "^4.1.5",
+    "drachtio-fsmrf": "^1.1.2",
+    "drachtio-sip": "^0.3.5",
+    "drachtio-srf": "^4.2.4",
     "minimist": "^1.2.0",
     "public-ip": "^2.3.5",
     "winston": "^2.4.0"

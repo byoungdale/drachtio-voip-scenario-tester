@@ -34,3 +34,6 @@ node_modules
 
 # Optional eslint cache
 .eslintcache
+
+# package-lock.json
+packe-lock.json

@@ -14,10 +14,6 @@ const {
   scenarios,
 } = require('./config.js');
 
-const app = drachtio();
-const mrf = new Mrf(app);
-const srf = new Srf(app);
-
 const logger = new winston.Logger({
   transports: [
     new winston.transports.File(config.logSettings),
@@ -25,19 +21,27 @@ const logger = new winston.Logger({
   exitOnError: false,
 });
 
+const srf = new Srf();
+
+const mrf = new Mrf(srf);
+
 srf.connect(config.drachtioConnectOpts);
 
-mrf.connect(config.mediaserverConnectOpts, (ms) => {
-  MediaServices.MediaResources.addMediaServer(ms);
-});
+mrf.connect(config.mediaserverConnectOpts)
+  .then((mediaserver) => {
+    logger.info('successfully connected to medaiserver');
+    MediaServices.MediaResources.addMediaServer(mediaserver);
+  })
+  .catch((error) => {
+    logger.error(`could not conenct to mediaserver: ${error}`);
+  });
 
 srf.on('connect', (err, hostport) => {
   logger.info(`connected to drachtio listening for SIP on ${hostport}`);
-});
-
-mrf.on('connect', (err, ms) => {
-  if (err) { debug(err); }
-  MediaServices.addMediaServer(ms);
+  scenario.run(srf, users, scenarios.one, logger);
+  setTimeout(() => { scenario.run(srf, users, scenarios.two, logger); }, 10000);
+  // setTimeout(() => { scenario.run(srf, users, scenarios.three, logger); }, 20000);
+  // setTimeout(() => { scenario.run(srf, users, scenarios.four, logger); }, 30000);
 });
 
 srf.on('cdr:attempt', (source, time, msg) => {
@@ -63,5 +67,3 @@ srf.on('cdr:stop', (source, time, reason, msg) => {
   //      'system-initiated-termination', or 'system-error-initiated-termination'
   // msg: object representing BYE message that was sent or received
 });
-
-scenario.run(srf, users, scenarios.one, logger);
