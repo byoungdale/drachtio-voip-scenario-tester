@@ -1,7 +1,7 @@
 {
   "name": "drachtio-sip-scenario-tester",
   "version": "1.0.0",
-  "description": "drachtio sip scenario tester similar to sipP or sipPy_Cup",
+  "description": "drachtio voip scenario tester",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/byoungdale/drachtio-sip-scenario-tester.git"
+    "url": "https://gitlab.com/byoungdale/drachtio-voip-scenario-tester.git"
   },
   "keywords": [
     "SIP",
