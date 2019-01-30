@@ -94,6 +94,12 @@ const scenarios = {
 };
 ```
 
+#### To-Do's
+
+ - add tests
+ - add option for results to be written to json log file (similar to [voip_patrol](https://github.com/jchavanton/voip_patrol)) or push results to an HTTP endpoint
+ - create json document of common scenarios
+
 Note: In order to run this application, you must have the following:
 * [drachtio-server](https://github.com/davehorton/drachtio-server) running locally and listening on port 8022
 * freeswitch running locally, listening for event socket on port 8021, and configured as per [drachtio-fs-ansible](https://github.com/byoungdale/drachtio-fs-ansible)
