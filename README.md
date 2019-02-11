@@ -98,6 +98,7 @@ const scenarios = {
 
  - add tests
  - add option for results to be written to json log file (similar to [voip_patrol](https://github.com/jchavanton/voip_patrol)) or push results to an HTTP endpoint
+ - Add SIP MESSAGE support (IM and MWI)
  - create json document of common scenarios
 
 Note: In order to run this application, you must have the following:
