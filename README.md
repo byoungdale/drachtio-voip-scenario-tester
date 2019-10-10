@@ -99,6 +99,7 @@ const scenarios = {
  - add tests
  - add load testing functionality (CPS, CPS with media)
  - add option for results to be written to json log file (similar to [voip_patrol](https://github.com/jchavanton/voip_patrol)) or push results to an HTTP endpoint
+ - add http endpoint to allow remote execution of scenarios
  - Add SIP MESSAGE support (IM and MWI)
  - create json document of common scenarios
 
