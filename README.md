@@ -96,6 +96,7 @@ const scenarios = {
 
 #### To-Do's
 
+ - add response time with 'stackTime' value on response object
  - add tests
  - add load testing functionality (CPS, CPS with media)
  - add option for results to be written to json log file (similar to [voip_patrol](https://github.com/jchavanton/voip_patrol)) or push results to an HTTP endpoint
