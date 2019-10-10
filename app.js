@@ -3,7 +3,7 @@ const Mrf = require('drachtio-fsmrf');
 const Srf = require('drachtio-srf');
 const MediaServices = require('./lib/media-services');
 const debug = require('debug');
-const config = require('./config');
+const config = require('config');
 const scenario = require('./lib/scenario');
 
 const {

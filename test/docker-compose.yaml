@@ -1,0 +1,41 @@
+version: '2.1'
+
+networks:
+  drachtio_docker_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.128.0.0/24
+
+services:
+  drachtio-fsmrf:
+    container_name: drachtio-voip-scenario-tester-fsmrf
+    image: drachtio/drachtio-freeswitch-mrf:latest
+    command: freeswitch --sip-port 5060 --rtp-range-start 20000 --rtp-range-end 20020
+    tty: true
+    ports:
+      - "9070:8021/tcp"
+    networks:
+      drachtio_docker_network:
+        ipv4_address: 172.128.0.10
+
+  drachtio-server:
+    container_name: drachtio-voip-scenario-tester-server
+    image: drachtio/drachtio-server:latest
+    command: drachtio --contact "sip:*;transport=udp" --loglevel debug
+    ports:
+      - "9061:9022/tcp"
+      - "5656:5060/udp"
+    networks:
+      drachtio_docker_network:
+        ipv4_address: 172.128.0.11
+
+  voip-scenario-tester:
+    container_name: drachtio-voip-scenario-tester
+    depends_on:
+      - "drachtio-fsmrf"
+    image: drachtio/drachtio-voip-scenario-tester:latest
+    tty: true
+    networks:
+      drachtio_docker_network:
+        ipv4_address: 172.128.0.12
