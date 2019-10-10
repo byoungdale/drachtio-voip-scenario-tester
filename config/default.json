@@ -1,0 +1,38 @@
+
+"users": {
+  
+}
+
+"scenarios": {
+  "one": {
+    "type": "call",
+    "user": users.one,
+    "callflow": {
+      "direction": 'receive',
+      "parameters": null,
+    },
+    "actions": [
+      { "playRecording": ["music/8000/suite-espanola-op-47-leyenda.wav"] },
+    ],
+  },
+  "two": {
+    "type": "call",
+    "user": users.two,
+    "callflow": {
+      "direction": 'send',
+      "parameters": `${users.three.username}`,
+    },
+    "actions": [
+      { "playRecording": ["ivr/8000/ivr-oh_whatever.wav"] },
+      { "transfer": ["users.one.username", "1000", "users.one.domain"] },
+    ],
+  },
+  "three": {
+    "type": "call",
+    "user": users.three,
+    "callflow": {
+      "direction": 'receive',
+      "parameters": { "forward": "${users.one.username}@${users.one.domain}" },
+    },
+  }
+};

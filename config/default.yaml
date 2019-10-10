@@ -1,0 +1,67 @@
+users: 
+  - &1000 '1000':
+    - username: '1000'
+    - password: 'password'
+    - domain: 'sip.example.com'
+    - subscriptions:
+      - '1001'
+      - '1002'
+      - '1003'
+  - &1001 '1001':
+    - username: '1001'
+    - password: 'password'
+    - domain: 'sip.example.com'
+    - subscriptions:
+      - '1000'
+      - '1002'
+      - '1003'
+  - &1002 '1002':
+    - username: '1002'
+    - password: 'password'
+    - domain: 'sip.example.com'
+    - subscriptions:
+      - '1000'
+      - '1001'
+      - '1003'
+  - &1003 '1003':
+    - username: '1003'
+    - password: 'password'
+    - domain: 'sip.example.com'
+    - subscriptions:
+      - '1000'
+      - '1001'
+      - '1002'
+
+scenarios:
+  - 'receive_call':
+    - type: 'call'
+    - user: *1000
+    - callflow:
+      - direction: 'receive',
+    - actions:
+        - playRecordings: 
+          - "music/8000/suite-espanola-op-47-leyenda.wav"
+  - 'send_call':
+    - type: 'call'
+    - user: *1001
+    - callflow:
+      - direction: 'send',
+      - parameters: *1000 #sending to 1000
+    - actions:
+      - playRecordings:
+        - "ivr/8000/ivr-oh_whatever.wav"
+      - transfer: *1002
+  - 'forward_call':
+    - type: 'call'
+    - user: *1002
+    - callflow:
+      - direction: 'receive',
+    - actions:
+      - forward: *1003
+  - 'receive_forward':
+    - type: 'call'
+    - user: *1003
+    - callflow:
+      - direction: 'receive',
+    - actions:
+      - do_not_disturb
